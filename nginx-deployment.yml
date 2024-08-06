@@ -7,6 +7,8 @@ spec:
   selector:
     matchLabels:
       run: my-nginx
+  strategy:
+      type: Recreate
   template:
     metadata:
       labels:
@@ -17,7 +19,15 @@ spec:
           image: nginx:latest
           ports:
             - containerPort: 80
-
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
 ---
 
 apiVersion: v1
