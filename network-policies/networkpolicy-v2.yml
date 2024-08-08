@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: custom-network-policy
+  namespace: default
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - ipBlock:
+        cidr: 192.168.1.1/24
+  - from:
+    - ipBlock:
+        cidr: 192.168.2.1/24
+        except:
+        - 192.168.2.1/24
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 0.0.0.0/0
+
